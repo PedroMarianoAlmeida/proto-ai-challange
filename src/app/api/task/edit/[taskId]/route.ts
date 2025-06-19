@@ -1,17 +1,20 @@
 import { NextResponse } from "next/server";
-import data from "@/data/tasks.json";
+import { getData, setData } from "@/data/tasks";
+import { Task } from "@/types/task";
+
+export const runtime = "nodejs";
 
 export async function PUT(
   request: Request,
   { params }: { params: { taskId: string } }
 ) {
   const { taskId } = params;
-  const body = await request.json();
-  const { title, description, status, dueDate } = body;
+  const { title, description, status, dueDate } = await request.json();
 
-  const task = data.find((t) => t.id === taskId);
+  const tasks = await getData();
 
-  if (!task) {
+  const idx = tasks.findIndex((t) => t.id === taskId);
+  if (idx === -1) {
     return NextResponse.json({ error: "Task not found." }, { status: 404 });
   }
 
@@ -19,16 +22,22 @@ export async function PUT(
     return NextResponse.json(
       {
         error:
-          "Missing fields. title, description, status, dueDate are required.",
+          "Missing fields: title, description, status, and dueDate are required.",
       },
       { status: 400 }
     );
   }
 
-  task.title = title;
-  task.description = description;
-  task.status = status;
-  task.dueDate = dueDate;
+  const updated: Task = {
+    ...tasks[idx],
+    title,
+    description,
+    status,
+    dueDate,
+  };
+  tasks[idx] = updated;
 
-  return NextResponse.json(task, { status: 200 });
+  await setData(tasks);
+
+  return NextResponse.json(updated, { status: 200 });
 }

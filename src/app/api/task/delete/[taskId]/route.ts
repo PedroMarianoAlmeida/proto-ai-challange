@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import data from "@/data/tasks.json";
+import { getData, setData } from "@/data/tasks";
+
+export const runtime = "nodejs";
 
 export async function DELETE(
   request: Request,
@@ -7,13 +9,15 @@ export async function DELETE(
 ) {
   const { taskId } = params;
 
-  const index = data.findIndex((task) => task.id === taskId);
+  const tasks = await getData();
 
+  const index = tasks.findIndex((t) => t.id === taskId);
   if (index === -1) {
     return NextResponse.json({ error: "Task not found." }, { status: 404 });
   }
+  const [deletedTask] = tasks.splice(index, 1);
 
-  const deletedTask = data.splice(index, 1)[0];
+  await setData(tasks);
 
   return NextResponse.json(deletedTask, { status: 200 });
 }
