@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Task } from "@/hooks/useMockTasks";
+import { Task } from "@/types/task";
 
 import { DialogLayout } from "@/ui/layouts/DialogLayout";
 import { Button } from "@/ui/components/Button";
