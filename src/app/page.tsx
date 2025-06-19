@@ -9,7 +9,6 @@ import { FeatherSearch } from "@subframe/core";
 import { FeatherChevronDown } from "@subframe/core";
 import { ToggleGroup } from "@/ui/components/ToggleGroup";
 import { FeatherLayoutList } from "@subframe/core";
-import { FeatherGrid } from "@subframe/core";
 import { Table } from "@/ui/components/Table";
 import { Badge } from "@/ui/components/Badge";
 import { DropdownMenu } from "@/ui/components/DropdownMenu";
@@ -55,14 +54,6 @@ function TaskManagementHub() {
                 All Status
               </Button>
             </div>
-            <ToggleGroup value="" onValueChange={(value: string) => {}}>
-              <ToggleGroup.Item icon={<FeatherLayoutList />} value="d69a3627">
-                List
-              </ToggleGroup.Item>
-              <ToggleGroup.Item icon={<FeatherGrid />} value="51ebc6f9">
-                Grid
-              </ToggleGroup.Item>
-            </ToggleGroup>
           </div>
           <div className="flex w-full flex-col items-start gap-2 rounded-md border border-solid border-neutral-border bg-default-background shadow-sm overflow-auto">
             <Table

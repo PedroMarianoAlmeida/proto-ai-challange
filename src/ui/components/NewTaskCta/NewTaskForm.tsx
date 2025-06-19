@@ -16,7 +16,6 @@ export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
 
