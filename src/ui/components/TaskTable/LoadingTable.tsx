@@ -7,7 +7,10 @@ export const LoadingTable = () => {
   return (
     <>
       {Array.from({ length: 4 }).map((_, index) => (
-        <Table.Row key={index}>
+        <Table.Row
+          key={index}
+          className="grid w-full grid-cols-[minmax(0,15%),minmax(0,45%),minmax(0,10%),minmax(0,10%),minmax(0,10%)]"
+        >
           <Table.Cell>
             <SkeletonText className="w-[120px]" />
           </Table.Cell>
