@@ -12,11 +12,8 @@ const statusToVariant: Record<string, "neutral" | "warning" | "success"> = {
   "In Progress": "warning",
   Completed: "success",
 };
-export const TaskRow = ({
-  item: { id, title, description, status, dueDate },
-}: {
-  item: Task;
-}) => {
+export const TaskRow = ({ item }: { item: Task }) => {
+  const { id, title, description, status, dueDate } = item;
   return (
     <Table.Row key={id}>
       <Table.Cell>
@@ -43,7 +40,7 @@ export const TaskRow = ({
       </Table.Cell>
       <Table.Cell>
         <div className="flex grow shrink-0 basis-0 items-center gap-2">
-          <EditTask />
+          <EditTask task={item} />
           <DeleteTask taskId={id} />
         </div>
       </Table.Cell>

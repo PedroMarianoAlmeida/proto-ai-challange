@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
+import { Task } from "@/hooks/useMockTasks";
+
 import { DialogLayout } from "@/ui/layouts/DialogLayout";
 import { Button } from "@/ui/components/Button";
 import { FeatherX, FeatherEdit2 } from "@subframe/core";
+import { EditTaskForm } from "./EditTaskForm";
 
-export function EditTask() {
+export function EditTask({ task }: { task: Task }) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
@@ -29,14 +32,14 @@ export function EditTask() {
               onClick={() => setIsModalOpen(false)}
             />
           </div>
-          {/* <NewTaskForm onSuccess={() => setIsModalOpen(false)}>
+          <EditTaskForm onSuccess={() => setIsModalOpen(false)} task={task}>
             <Button
               variant="neutral-tertiary"
               onClick={() => setIsModalOpen(false)}
             >
               Cancel
             </Button>
-          </NewTaskForm> */}
+          </EditTaskForm>
         </div>
       </DialogLayout>
     </>
