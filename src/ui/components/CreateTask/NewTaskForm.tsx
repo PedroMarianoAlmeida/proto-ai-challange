@@ -1,16 +1,18 @@
 "use client";
 
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 import { Button } from "@/ui/components/Button";
 import { TextField } from "@/ui/components/TextField";
 import { TextArea } from "@/ui/components/TextArea";
 import { useCreateTask } from "@/hooks/useMockTasks";
+import { Calendar } from "@/ui/components/Calendar";
 
 type Inputs = {
   title: string;
   description: string;
+  dueDate: Date;
 };
 
 interface NewTasksFormProps {
@@ -22,18 +24,26 @@ export const NewTaskForm = ({ children, onSuccess }: NewTasksFormProps) => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({ defaultValues: { dueDate: new Date() } });
 
   const { mutate, isPending } = useCreateTask();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    mutate(data, {
-      onSuccess: () => {
-        onSuccess();
-        reset();
+    mutate(
+      {
+        description: data.description,
+        title: data.title,
+        dueDate: data.dueDate.toISOString().split("T")[0],
       },
-    });
+      {
+        onSuccess: () => {
+          onSuccess();
+          reset();
+        },
+      }
+    );
   };
 
   return (
@@ -64,6 +74,23 @@ export const NewTaskForm = ({ children, onSuccess }: NewTasksFormProps) => {
             {...register("description", { required: true })}
           />
         </TextArea>
+        <Controller
+          name="dueDate"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <div className="flex flex-col gap-1 w-full items-center">
+              <span className="text-caption-bold font-caption-bold text-default-font w-full text-left">
+                Due Date
+              </span>
+              <Calendar
+                mode="single"
+                selected={field.value}
+                onSelect={field.onChange}
+              />
+            </div>
+          )}
+        />
       </div>
       <div className="flex w-full items-center justify-end gap-2">
         {children}

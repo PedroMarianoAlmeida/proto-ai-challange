@@ -5,7 +5,7 @@ import { Task } from "@/types/task";
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
-  const { title, description } = await request.json();
+  const { title, description, dueDate } = await request.json();
 
   if (!title || !description) {
     return NextResponse.json(
@@ -18,11 +18,10 @@ export async function POST(request: Request) {
     id: `${Date.now()}`,
     title,
     description,
-    dueDate: new Date().toISOString().split("T")[0],
+    dueDate,
     status: "Todo",
   };
 
-  // load, append, write
   const tasks = await getData();
   tasks.push(newTask);
   await setData(tasks);

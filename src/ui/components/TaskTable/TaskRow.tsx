@@ -38,6 +38,7 @@ export const TaskRow = ({ item }: { item: Task }) => {
             month: "short",
             day: "numeric",
             year: "numeric",
+            timeZone: "UTC",
           }).format(new Date(dueDate))}
         </span>
       </Table.Cell>
