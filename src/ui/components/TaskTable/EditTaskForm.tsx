@@ -42,7 +42,7 @@ export const EditTaskForm = ({
       title,
       description,
       status,
-      dueDate: new Date(dueDate),
+      dueDate: new Date(`${task.dueDate}T00:00`),
     },
   });
 
@@ -51,7 +51,7 @@ export const EditTaskForm = ({
       title,
       description,
       status,
-      dueDate: new Date(task.dueDate),
+      dueDate: new Date(`${task.dueDate}T00:00`),
     });
   }, [task, reset]);
 
