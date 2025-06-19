@@ -13,7 +13,7 @@ const statusToVariant: Record<string, "neutral" | "warning" | "success"> = {
 export const TaskRow = ({ item }: { item: Task }) => {
   const { id, title, description, status, dueDate } = item;
   return (
-    <Table.Row key={id}>
+    <Table.Row key={id} className="grid grid-cols-[15%,35%,10%,10%,20%] w-full">
       <Table.Cell>
         <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
           {title}
