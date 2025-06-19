@@ -99,11 +99,19 @@ export const useUpdateTask = () => {
 
   return useMutation({
     mutationFn: async (updatedTask: Task) => {
-      await wait(300);
-      mockTasks = mockTasks.map((task) =>
-        task.id === updatedTask.id ? updatedTask : task
-      );
-      return updatedTask;
+      const res = await fetch(`/api/task/edit/${updatedTask.id}`, {
+        method: "PUT",
+        body: JSON.stringify(updatedTask),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to update task");
+      }
+
+      return res.json() as Promise<Task>;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
