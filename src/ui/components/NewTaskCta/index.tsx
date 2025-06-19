@@ -29,7 +29,7 @@ export function NewTaskCta() {
           <NewTaskForm>
             <Button
               variant="neutral-tertiary"
-              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+              onClick={() => setIsModalOpen(false)}
             >
               Cancel
             </Button>
