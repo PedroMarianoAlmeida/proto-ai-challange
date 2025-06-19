@@ -10,7 +10,7 @@ import { FeatherChevronDown } from "@subframe/core";
 import { Table } from "@/ui/components/Table";
 import { CreateTask } from "@/src/ui/components/CreateTask";
 import { useTasks } from "@/hooks/useMockTasks";
-import { TaskRow } from "@/ui/components/TaskRow";
+import { TaskRow } from "@/src/ui/components/TaskTable/TaskRow";
 
 function TaskManagementHub() {
   const { data } = useTasks();
@@ -38,13 +38,6 @@ function TaskManagementHub() {
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {}}
                 />
               </TextField>
-              <Button
-                variant="neutral-tertiary"
-                iconRight={<FeatherChevronDown />}
-                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
-              >
-                All Status
-              </Button>
             </div>
           </div>
           <div className="flex w-full flex-col items-start gap-2 rounded-md border border-solid border-neutral-border bg-default-background shadow-sm overflow-auto">
