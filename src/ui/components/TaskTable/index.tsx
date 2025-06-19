@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { useDebounce } from "use-debounce";
 
 import { TextField } from "@/ui/components/TextField";
 import { FeatherSearch } from "@subframe/core";
@@ -9,8 +10,9 @@ import { TaskRow } from "@/src/ui/components/TaskTable/TaskRow";
 import { useTasks } from "@/hooks/useMockTasks";
 
 export const TaskTable = () => {
-  const [filter, setFilter] = useState("");
-  const { data } = useTasks(filter);
+  const [searchInput, setSearchInput] = React.useState("");
+  const [debouncedSearch] = useDebounce(searchInput, 500);
+  const { data } = useTasks(debouncedSearch);
 
   return (
     <>
@@ -19,9 +21,9 @@ export const TaskTable = () => {
           <TextField variant="filled" icon={<FeatherSearch />}>
             <TextField.Input
               placeholder="Search tasks..."
-              value={filter}
+              value={searchInput}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setFilter(event.target.value)
+                setSearchInput(event.target.value)
               }
             />
           </TextField>
