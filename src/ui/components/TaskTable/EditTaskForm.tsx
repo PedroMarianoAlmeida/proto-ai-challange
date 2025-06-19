@@ -10,7 +10,7 @@ import { useUpdateTask } from "@/hooks/useMockTasks";
 import { Task } from "@/types/task";
 import { Select } from "@/ui/components/Select";
 import { Calendar } from "@/ui/components/Calendar";
-
+import { parseLocalDate } from "@/utils/date";
 type Inputs = {
   title: string;
   description: string;
@@ -28,7 +28,7 @@ export const EditTaskForm = ({
   onSuccess,
   task,
 }: EditTaskFormProps) => {
-  const { description, dueDate, id, status, title } = task;
+  const { title, description, status, dueDate: dueString, id } = task;
 
   const {
     register,
@@ -42,7 +42,7 @@ export const EditTaskForm = ({
       title,
       description,
       status,
-      dueDate: new Date(`${task.dueDate}T00:00`),
+      dueDate: parseLocalDate(dueString),
     },
   });
 
@@ -51,7 +51,7 @@ export const EditTaskForm = ({
       title,
       description,
       status,
-      dueDate: new Date(`${task.dueDate}T00:00`),
+      dueDate: parseLocalDate(dueString),
     });
   }, [task, reset]);
 
@@ -61,7 +61,8 @@ export const EditTaskForm = ({
     watchedValues.title !== title ||
     watchedValues.description !== description ||
     watchedValues.status !== status ||
-    watchedValues.dueDate?.toDateString() !== new Date(dueDate).toDateString();
+    watchedValues.dueDate?.toDateString() !==
+      parseLocalDate(dueString).toDateString();
 
   const { mutate, isPending } = useUpdateTask();
 
@@ -135,6 +136,7 @@ export const EditTaskForm = ({
           name="dueDate"
           control={control}
           rules={{ required: true }}
+          defaultValue={parseLocalDate(task.dueDate)}
           render={({ field }) => (
             <div className="flex flex-col gap-1 w-full items-center">
               <span className="text-caption-bold font-caption-bold text-default-font w-full text-left">
