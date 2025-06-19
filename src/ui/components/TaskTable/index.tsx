@@ -43,7 +43,19 @@ export const TaskTable = () => {
           }
         >
           {isLoading && <LoadingTable />}
-          {data && data.map((item) => <TaskRow item={item} />)}
+          {data && data.length > 0
+            ? data.map((item) => <TaskRow item={item} key={item.id} />)
+            : !isLoading && (
+                <Table.Row>
+                  <Table.Cell colSpan={5}>
+                    <div className="flex h-24 w-full items-center justify-center">
+                      <span className="text-body-bold text-neutral-500">
+                        No tasks found
+                      </span>
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              )}
         </Table>
       </div>
     </>
