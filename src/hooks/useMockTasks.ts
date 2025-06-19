@@ -78,9 +78,15 @@ export const useDeleteTask = (taskId: string) => {
 
   return useMutation({
     mutationFn: async () => {
-      await wait(300);
-      mockTasks = mockTasks.filter((task) => task.id !== taskId);
-      return taskId;
+      const res = await fetch(`/api/task/delete/${taskId}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to delete task");
+      }
+
+      return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
