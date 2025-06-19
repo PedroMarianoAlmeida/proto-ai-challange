@@ -56,10 +56,10 @@ export const useCreateTask = () => {
       await wait(300);
       console.log("before push");
       const newTask: Task = {
-        id: `${Date.now()}`, // Better ID than Date string
+        id: `${Date.now()}`,
         title,
         description,
-        dueDate: new Date().toISOString().split("T")[0], // yyyy-mm-dd
+        dueDate: new Date().toISOString().split("T")[0],
         status: "Todo",
       };
       mockTasks.push(newTask);
@@ -84,3 +84,20 @@ export const useDeleteTask = (taskId: string) => {
     },
   });
 };
+
+export const useUpdateTask = () => {
+    const queryClient = useQueryClient();
+  
+    return useMutation({
+      mutationFn: async (updatedTask: Task) => {
+        await wait(300);
+        mockTasks = mockTasks.map((task) =>
+          task.id === updatedTask.id ? updatedTask : task
+        );
+        return updatedTask;
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      },
+    });
+  };

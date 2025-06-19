@@ -6,7 +6,7 @@ import { Button } from "@/ui/components/Button";
 import { FeatherX, FeatherPlus } from "@subframe/core";
 import { NewTaskForm } from "./NewTaskForm";
 
-export function NewTaskCta() {
+export function CreateTask() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (

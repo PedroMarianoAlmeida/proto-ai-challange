@@ -1,25 +1,17 @@
 import { Task } from "@/hooks/useMockTasks";
 import { Table } from "@/ui/components/Table";
 import { Badge } from "@/ui/components/Badge";
-import { DropdownMenu } from "@/ui/components/DropdownMenu";
-import { FeatherEdit2 } from "@subframe/core";
-import { Button } from "@/ui/components/Button";
-import * as SubframeCore from "@subframe/core";
-import { IconButton } from "@/ui/components/IconButton";
-import { FeatherMoreHorizontal } from "@subframe/core";
 
 import { DeleteTask } from "./DeleteTask";
+import { EditTask } from "./EditTask";
 
 const statusToVariant: Record<string, "neutral" | "warning" | "success"> = {
   Todo: "neutral",
   "In Progress": "warning",
   Completed: "success",
 };
-export const TaskRow = ({
-  item: { id, title, description, status, dueDate },
-}: {
-  item: Task;
-}) => {
+export const TaskRow = ({ item }: { item: Task }) => {
+  const { id, title, description, status, dueDate } = item;
   return (
     <Table.Row key={id}>
       <Table.Cell>
@@ -46,9 +38,7 @@ export const TaskRow = ({
       </Table.Cell>
       <Table.Cell>
         <div className="flex grow shrink-0 basis-0 items-center gap-2">
-          <Button variant="neutral-primary" icon={<FeatherEdit2 />}>
-            Edit
-          </Button>
+          <EditTask task={item} />
           <DeleteTask taskId={id} />
         </div>
       </Table.Cell>
