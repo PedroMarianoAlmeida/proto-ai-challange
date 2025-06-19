@@ -10,6 +10,8 @@ import * as SubframeCore from "@subframe/core";
 import { IconButton } from "@/ui/components/IconButton";
 import { FeatherMoreHorizontal } from "@subframe/core";
 
+import { DeleteTask } from "./DeleteTask";
+
 const statusToVariant: Record<string, "neutral" | "warning" | "success"> = {
   Todo: "neutral",
   "In Progress": "warning",
@@ -64,9 +66,7 @@ export const TaskRow = ({
                   <DropdownMenu.DropdownItem icon={<FeatherEdit2 />}>
                     Edit
                   </DropdownMenu.DropdownItem>
-                  <DropdownMenu.DropdownItem icon={<FeatherTrash />}>
-                    Delete
-                  </DropdownMenu.DropdownItem>
+                  <DeleteTask taskId={id} />
                 </DropdownMenu>
               </SubframeCore.DropdownMenu.Content>
             </SubframeCore.DropdownMenu.Portal>
