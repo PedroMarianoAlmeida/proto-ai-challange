@@ -1,17 +1,20 @@
 import { NextResponse } from "next/server";
-import data from "@/data/tasks.json";
+import { getData } from "@/data/tasks";
+
+export const runtime = "nodejs";
 
 export async function GET(request: Request) {
+  const tasks = await getData();
   const { searchParams } = new URL(request.url);
   const search = searchParams.get("search")?.toLowerCase();
 
   const result = search
-    ? data.filter(
+    ? tasks.filter(
         (task) =>
           task.title.toLowerCase().includes(search) ||
           task.description.toLowerCase().includes(search)
       )
-    : data;
+    : tasks;
 
   return NextResponse.json(result);
 }

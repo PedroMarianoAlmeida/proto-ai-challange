@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
-import data from "@/data/tasks.json";
+import { getData, setData } from "@/data/tasks";
+import { Task } from "@/types/task";
+
+export const runtime = "nodejs";
 
 export async function POST(request: Request) {
-  const body = await request.json();
-  const { title, description } = body;
+  const { title, description } = await request.json();
 
   if (!title || !description) {
     return NextResponse.json(
@@ -12,7 +14,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const newTask = {
+  const newTask: Task = {
     id: `${Date.now()}`,
     title,
     description,
@@ -20,7 +22,10 @@ export async function POST(request: Request) {
     status: "Todo",
   };
 
-  data.push(newTask);
+  // load, append, write
+  const tasks = await getData();
+  tasks.push(newTask);
+  await setData(tasks);
 
   return NextResponse.json(newTask, { status: 201 });
 }
