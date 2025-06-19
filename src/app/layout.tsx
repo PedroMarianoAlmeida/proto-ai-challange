@@ -1,9 +1,11 @@
 import "./globals.css";
 import type { Metadata } from "next";
 
+import { QueryProvider } from "@/providers/QueryProvider";
+
 export const metadata: Metadata = {
-  title: "Subframe Next.js Starter",
-  description: "Your starter kit for integrating Subframe into Next.js",
+  title: "TODO Table",
+  description: "Pedro Almeida Tech Challenge",
 };
 
 export default function RootLayout({
@@ -26,8 +28,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-
-      <body>{children}</body>
+      <QueryProvider>
+        <body>{children}</body>
+      </QueryProvider>
     </html>
   );
 }

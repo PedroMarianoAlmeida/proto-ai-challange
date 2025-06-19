@@ -1,18 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { DefaultPageLayout } from "@/ui/layouts/DefaultPageLayout";
 import { Button } from "@/ui/components/Button";
 
 import { TextField } from "@/ui/components/TextField";
 import { FeatherSearch } from "@subframe/core";
 import { FeatherChevronDown } from "@subframe/core";
-import { ToggleGroup } from "@/ui/components/ToggleGroup";
-import { FeatherLayoutList } from "@subframe/core";
+
 import { Table } from "@/ui/components/Table";
 import { Badge } from "@/ui/components/Badge";
 import { DropdownMenu } from "@/ui/components/DropdownMenu";
-import { FeatherEye } from "@subframe/core";
 import { FeatherEdit2 } from "@subframe/core";
 import { FeatherTrash } from "@subframe/core";
 import * as SubframeCore from "@subframe/core";
@@ -20,8 +18,16 @@ import { IconButton } from "@/ui/components/IconButton";
 import { FeatherMoreHorizontal } from "@subframe/core";
 
 import { NewTaskCta } from "@/ui/components/NewTaskCta";
+import { useTasks } from "@/hooks/useMockTasks";
+
+const statusToVariant: Record<string, "neutral" | "warning" | "success"> = {
+  Todo: "neutral",
+  "In Progress": "warning",
+  Completed: "success",
+};
 
 function TaskManagementHub() {
+  const { data } = useTasks();
   return (
     <>
       <DefaultPageLayout>
@@ -63,175 +69,74 @@ function TaskManagementHub() {
                   <Table.HeaderCell>Description</Table.HeaderCell>
                   <Table.HeaderCell>Status</Table.HeaderCell>
                   <Table.HeaderCell>Due Date</Table.HeaderCell>
-                  <Table.HeaderCell />
+                  <Table.HeaderCell>Actions</Table.HeaderCell>
                 </Table.HeaderRow>
               }
             >
-              <Table.Row>
-                <Table.Cell>
-                  <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
-                    Website Redesign
-                  </span>
-                </Table.Cell>
-                <Table.Cell>
-                  <span className="whitespace-nowrap text-body font-body text-neutral-500">
-                    Update the company website with new branding
-                  </span>
-                </Table.Cell>
-                <Table.Cell>
-                  <Badge variant="warning">In Progress</Badge>
-                </Table.Cell>
-                <Table.Cell>
-                  <span className="whitespace-nowrap text-body font-body text-neutral-500">
-                    Mar 15, 2024
-                  </span>
-                </Table.Cell>
-                <Table.Cell>
-                  <div className="flex grow shrink-0 basis-0 items-center justify-end">
-                    <SubframeCore.DropdownMenu.Root>
-                      <SubframeCore.DropdownMenu.Trigger asChild={true}>
-                        <IconButton
-                          icon={<FeatherMoreHorizontal />}
-                          onClick={(
-                            event: React.MouseEvent<HTMLButtonElement>
-                          ) => {}}
-                        />
-                      </SubframeCore.DropdownMenu.Trigger>
-                      <SubframeCore.DropdownMenu.Portal>
-                        <SubframeCore.DropdownMenu.Content
-                          side="bottom"
-                          align="end"
-                          sideOffset={8}
-                          asChild={true}
-                        >
-                          <DropdownMenu>
-                            <DropdownMenu.DropdownItem icon={<FeatherEye />}>
-                              View
-                            </DropdownMenu.DropdownItem>
-                            <DropdownMenu.DropdownItem icon={<FeatherEdit2 />}>
-                              Edit
-                            </DropdownMenu.DropdownItem>
-                            <DropdownMenu.DropdownDivider />
-                            <DropdownMenu.DropdownItem icon={<FeatherTrash />}>
-                              Delete
-                            </DropdownMenu.DropdownItem>
-                          </DropdownMenu>
-                        </SubframeCore.DropdownMenu.Content>
-                      </SubframeCore.DropdownMenu.Portal>
-                    </SubframeCore.DropdownMenu.Root>
-                  </div>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>
-                  <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
-                    Product Launch
-                  </span>
-                </Table.Cell>
-                <Table.Cell>
-                  <span className="whitespace-nowrap text-body font-body text-neutral-500">
-                    Coordinate marketing campaign for new product
-                  </span>
-                </Table.Cell>
-                <Table.Cell>
-                  <Badge>Todo</Badge>
-                </Table.Cell>
-                <Table.Cell>
-                  <span className="whitespace-nowrap text-body font-body text-neutral-500">
-                    Apr 1, 2024
-                  </span>
-                </Table.Cell>
-                <Table.Cell>
-                  <div className="flex grow shrink-0 basis-0 items-center justify-end">
-                    <SubframeCore.DropdownMenu.Root>
-                      <SubframeCore.DropdownMenu.Trigger asChild={true}>
-                        <IconButton
-                          icon={<FeatherMoreHorizontal />}
-                          onClick={(
-                            event: React.MouseEvent<HTMLButtonElement>
-                          ) => {}}
-                        />
-                      </SubframeCore.DropdownMenu.Trigger>
-                      <SubframeCore.DropdownMenu.Portal>
-                        <SubframeCore.DropdownMenu.Content
-                          side="bottom"
-                          align="end"
-                          sideOffset={8}
-                          asChild={true}
-                        >
-                          <DropdownMenu>
-                            <DropdownMenu.DropdownItem icon={<FeatherEye />}>
-                              View
-                            </DropdownMenu.DropdownItem>
-                            <DropdownMenu.DropdownItem icon={<FeatherEdit2 />}>
-                              Edit
-                            </DropdownMenu.DropdownItem>
-                            <DropdownMenu.DropdownDivider />
-                            <DropdownMenu.DropdownItem icon={<FeatherTrash />}>
-                              Delete
-                            </DropdownMenu.DropdownItem>
-                          </DropdownMenu>
-                        </SubframeCore.DropdownMenu.Content>
-                      </SubframeCore.DropdownMenu.Portal>
-                    </SubframeCore.DropdownMenu.Root>
-                  </div>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>
-                  <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
-                    User Research
-                  </span>
-                </Table.Cell>
-                <Table.Cell>
-                  <span className="whitespace-nowrap text-body font-body text-neutral-500">
-                    Conduct user interviews and analyze feedback
-                  </span>
-                </Table.Cell>
-                <Table.Cell>
-                  <Badge variant="success">Completed</Badge>
-                </Table.Cell>
-                <Table.Cell>
-                  <span className="whitespace-nowrap text-body font-body text-neutral-500">
-                    Mar 10, 2024
-                  </span>
-                </Table.Cell>
-                <Table.Cell>
-                  <div className="flex grow shrink-0 basis-0 items-center justify-end">
-                    <SubframeCore.DropdownMenu.Root>
-                      <SubframeCore.DropdownMenu.Trigger asChild={true}>
-                        <IconButton
-                          icon={<FeatherMoreHorizontal />}
-                          onClick={(
-                            event: React.MouseEvent<HTMLButtonElement>
-                          ) => {}}
-                        />
-                      </SubframeCore.DropdownMenu.Trigger>
-                      <SubframeCore.DropdownMenu.Portal>
-                        <SubframeCore.DropdownMenu.Content
-                          side="bottom"
-                          align="end"
-                          sideOffset={8}
-                          asChild={true}
-                        >
-                          <DropdownMenu>
-                            <DropdownMenu.DropdownItem icon={<FeatherEye />}>
-                              View
-                            </DropdownMenu.DropdownItem>
-                            <DropdownMenu.DropdownItem icon={<FeatherEdit2 />}>
-                              Edit
-                            </DropdownMenu.DropdownItem>
-                            <DropdownMenu.DropdownDivider />
-                            <DropdownMenu.DropdownItem icon={<FeatherTrash />}>
-                              Delete
-                            </DropdownMenu.DropdownItem>
-                          </DropdownMenu>
-                        </SubframeCore.DropdownMenu.Content>
-                      </SubframeCore.DropdownMenu.Portal>
-                    </SubframeCore.DropdownMenu.Root>
-                  </div>
-                </Table.Cell>
-              </Table.Row>
+              {data &&
+                data.map(({ description, dueDate, id, status, title }) => (
+                  <Table.Row key={id}>
+                    <Table.Cell>
+                      <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
+                        {title}
+                      </span>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <span className="whitespace-nowrap text-body font-body text-neutral-500">
+                        {description}
+                      </span>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Badge variant={statusToVariant[status] || "neutral"}>
+                        {status}
+                      </Badge>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <span className="whitespace-nowrap text-body font-body text-neutral-500">
+                        {new Intl.DateTimeFormat("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        }).format(new Date(dueDate))}
+                      </span>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <div className="flex grow shrink-0 basis-0 items-center">
+                        <SubframeCore.DropdownMenu.Root>
+                          <SubframeCore.DropdownMenu.Trigger asChild={true}>
+                            <IconButton
+                              icon={<FeatherMoreHorizontal />}
+                              onClick={(
+                                event: React.MouseEvent<HTMLButtonElement>
+                              ) => {}}
+                            />
+                          </SubframeCore.DropdownMenu.Trigger>
+                          <SubframeCore.DropdownMenu.Portal>
+                            <SubframeCore.DropdownMenu.Content
+                              side="bottom"
+                              align="end"
+                              sideOffset={8}
+                              asChild={true}
+                            >
+                              <DropdownMenu>
+                                <DropdownMenu.DropdownItem
+                                  icon={<FeatherEdit2 />}
+                                >
+                                  Edit
+                                </DropdownMenu.DropdownItem>
+                                <DropdownMenu.DropdownItem
+                                  icon={<FeatherTrash />}
+                                >
+                                  Delete
+                                </DropdownMenu.DropdownItem>
+                              </DropdownMenu>
+                            </SubframeCore.DropdownMenu.Content>
+                          </SubframeCore.DropdownMenu.Portal>
+                        </SubframeCore.DropdownMenu.Root>
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
             </Table>
           </div>
         </div>
