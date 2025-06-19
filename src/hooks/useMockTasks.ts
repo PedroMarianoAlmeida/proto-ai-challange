@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export type Task = {
   id: string;
@@ -40,6 +40,32 @@ export const useTasks = () => {
     queryFn: async () => {
       await wait(300);
       return mockTasks;
+    },
+  });
+};
+
+interface CreateTaskParams {
+  title: string;
+  description: string;
+}
+export const useCreateTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ title, description }: CreateTaskParams) => {
+      await wait(300);
+      console.log("before push");
+      const newTask: Task = {
+        id: `${Date.now()}`, // Better ID than Date string
+        title,
+        description,
+        dueDate: new Date().toISOString().split("T")[0], // yyyy-mm-dd
+        status: "Todo",
+      };
+      mockTasks.push(newTask);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
     },
   });
 };
