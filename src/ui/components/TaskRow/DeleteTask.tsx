@@ -1,5 +1,5 @@
 "use client";
-import { DropdownMenu } from "@/ui/components/DropdownMenu";
+import { Button } from "@/ui/components/Button";
 import { FeatherTrash } from "@subframe/core";
 
 import { useDeleteTask } from "@/hooks/useMockTasks";
@@ -12,8 +12,14 @@ export const DeleteTask = ({ taskId }: { taskId: string }) => {
   };
 
   return (
-    <DropdownMenu.DropdownItem icon={<FeatherTrash />} onClick={handleDelete}>
+    <Button
+      icon={<FeatherTrash />}
+      onClick={handleDelete}
+      variant="destructive-primary"
+      disabled={isPending}
+      loading={isPending}
+    >
       Delete
-    </DropdownMenu.DropdownItem>
+    </Button>
   );
 };

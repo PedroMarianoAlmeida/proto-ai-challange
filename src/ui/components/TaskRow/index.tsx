@@ -1,11 +1,9 @@
-import { useTasks } from "@/hooks/useMockTasks";
-
 import { Task } from "@/hooks/useMockTasks";
 import { Table } from "@/ui/components/Table";
 import { Badge } from "@/ui/components/Badge";
 import { DropdownMenu } from "@/ui/components/DropdownMenu";
 import { FeatherEdit2 } from "@subframe/core";
-import { FeatherTrash } from "@subframe/core";
+import { Button } from "@/ui/components/Button";
 import * as SubframeCore from "@subframe/core";
 import { IconButton } from "@/ui/components/IconButton";
 import { FeatherMoreHorizontal } from "@subframe/core";
@@ -47,30 +45,11 @@ export const TaskRow = ({
         </span>
       </Table.Cell>
       <Table.Cell>
-        <div className="flex grow shrink-0 basis-0 items-center">
-          <SubframeCore.DropdownMenu.Root>
-            <SubframeCore.DropdownMenu.Trigger asChild={true}>
-              <IconButton
-                icon={<FeatherMoreHorizontal />}
-                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
-              />
-            </SubframeCore.DropdownMenu.Trigger>
-            <SubframeCore.DropdownMenu.Portal>
-              <SubframeCore.DropdownMenu.Content
-                side="bottom"
-                align="end"
-                sideOffset={8}
-                asChild={true}
-              >
-                <DropdownMenu>
-                  <DropdownMenu.DropdownItem icon={<FeatherEdit2 />}>
-                    Edit
-                  </DropdownMenu.DropdownItem>
-                  <DeleteTask taskId={id} />
-                </DropdownMenu>
-              </SubframeCore.DropdownMenu.Content>
-            </SubframeCore.DropdownMenu.Portal>
-          </SubframeCore.DropdownMenu.Root>
+        <div className="flex grow shrink-0 basis-0 items-center gap-2">
+          <Button variant="neutral-primary" icon={<FeatherEdit2 />}>
+            Edit
+          </Button>
+          <DeleteTask taskId={id} />
         </div>
       </Table.Cell>
     </Table.Row>
