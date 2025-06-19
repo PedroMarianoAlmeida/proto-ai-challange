@@ -9,11 +9,13 @@ import { TextArea } from "@/ui/components/TextArea";
 //import { useCreateTask } from "@/hooks/useMockTasks";
 import { Task } from "@/hooks/useMockTasks";
 import { Select } from "@/ui/components/Select";
+import { Calendar } from "@/ui/components/Calendar";
 
 type Inputs = {
   title: string;
   description: string;
   status: Task["status"];
+  dueDate: Date;
 };
 
 interface EditTaskFormProps {
@@ -39,6 +41,7 @@ export const EditTaskForm = ({
       title,
       description,
       status,
+      dueDate: new Date(dueDate),
     },
   });
 
@@ -47,6 +50,7 @@ export const EditTaskForm = ({
       title,
       description,
       status,
+      dueDate: new Date(task.dueDate),
     });
   }, [task, reset]);
 
@@ -108,6 +112,23 @@ export const EditTaskForm = ({
               <Select.Item value="In Progress">In Progress</Select.Item>
               <Select.Item value="Completed">Completed</Select.Item>
             </Select>
+          )}
+        />
+        <Controller
+          name="dueDate"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <div className="flex flex-col gap-1 w-full items-center">
+              <span className="text-caption-bold font-caption-bold text-default-font w-full text-left">
+                Due Date
+              </span>
+              <Calendar
+                mode="single"
+                selected={field.value}
+                onSelect={field.onChange}
+              />
+            </div>
           )}
         />
       </div>
