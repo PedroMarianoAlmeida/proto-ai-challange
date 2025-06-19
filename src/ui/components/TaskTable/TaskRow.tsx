@@ -1,4 +1,4 @@
-import { Task } from "@/hooks/useMockTasks";
+import { Task } from "@/types/task";
 import { Table } from "@/ui/components/Table";
 import { Badge } from "@/ui/components/Badge";
 

@@ -1,12 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-export type Task = {
-  id: string;
-  title: string;
-  description: string;
-  status: "Todo" | "In Progress" | "Completed";
-  dueDate: string;
-};
+import { Task } from "@/types/task";
 
 let mockTasks: Task[] = [
   {
@@ -38,16 +32,14 @@ export const useTasks = (search?: string) => {
   return useQuery<Task[]>({
     queryKey: ["tasks", search],
     queryFn: async () => {
-      await wait(300);
-      if (!search) return mockTasks;
+      const params = search ? `?search=${encodeURIComponent(search)}` : "";
+      const res = await fetch(`/api/tasks${params}`);
 
-      const lowerSearch = search.toLowerCase();
+      if (!res.ok) {
+        throw new Error("Failed to fetch tasks");
+      }
 
-      return mockTasks.filter(
-        (task) =>
-          task.title.toLowerCase().includes(lowerSearch) ||
-          task.description.toLowerCase().includes(lowerSearch)
-      );
+      return res.json();
     },
   });
 };

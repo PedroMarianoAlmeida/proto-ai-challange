@@ -7,7 +7,7 @@ import { Button } from "@/ui/components/Button";
 import { TextField } from "@/ui/components/TextField";
 import { TextArea } from "@/ui/components/TextArea";
 import { useUpdateTask } from "@/hooks/useMockTasks";
-import { Task } from "@/hooks/useMockTasks";
+import { Task } from "@/types/task";
 import { Select } from "@/ui/components/Select";
 import { Calendar } from "@/ui/components/Calendar";
 
