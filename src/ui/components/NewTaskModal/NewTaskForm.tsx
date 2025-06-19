@@ -8,8 +8,8 @@ import { TextField } from "@/ui/components/TextField";
 import { TextArea } from "@/ui/components/TextArea";
 
 type Inputs = {
-  example: string;
-  exampleRequired: string;
+  title: string;
+  description: string;
 };
 
 export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
@@ -22,10 +22,11 @@ export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
-  console.log(watch("example")); // watch input value by passing the name of it
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-2">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full flex flex-col gap-2"
+    >
       <div className="flex w-full flex-col items-start gap-6">
         <TextField
           className="h-auto w-full flex-none"
@@ -34,7 +35,7 @@ export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
         >
           <TextField.Input
             placeholder="Enter task title"
-            {...register("example")}
+            {...register("title", { required: true })}
           />
         </TextField>
         <TextArea
@@ -44,7 +45,7 @@ export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
         >
           <TextArea.Input
             placeholder="Enter task description"
-            {...register("exampleRequired", { required: true })}
+            {...register("description", { required: true })}
           />
         </TextArea>
       </div>
