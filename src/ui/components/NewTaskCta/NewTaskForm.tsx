@@ -67,7 +67,9 @@ export const NewTaskForm = ({ children, onSuccess }: NewTasksFormProps) => {
       </div>
       <div className="flex w-full items-center justify-end gap-2">
         {children}
-        <Button type="submit">Create Task</Button>
+        <Button type="submit" loading={isPending} disabled={isPending}>
+          Create Task
+        </Button>
       </div>
     </form>
   );
