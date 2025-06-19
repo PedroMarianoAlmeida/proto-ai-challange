@@ -25,7 +25,7 @@ export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
   console.log(watch("example")); // watch input value by passing the name of it
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-2">
       <div className="flex w-full flex-col items-start gap-6">
         <TextField
           className="h-auto w-full flex-none"
