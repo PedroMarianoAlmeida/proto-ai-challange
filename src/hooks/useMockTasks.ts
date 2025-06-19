@@ -8,7 +8,7 @@ export type Task = {
   dueDate: string;
 };
 
-export const mockTasks: Task[] = [
+let mockTasks: Task[] = [
   {
     id: "1",
     title: "Website Redesign",
@@ -63,6 +63,21 @@ export const useCreateTask = () => {
         status: "Todo",
       };
       mockTasks.push(newTask);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+};
+
+export const useDeleteTask = (taskId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async () => {
+      await wait(300);
+      mockTasks = mockTasks.filter((task) => task.id !== taskId);
+      return taskId;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
