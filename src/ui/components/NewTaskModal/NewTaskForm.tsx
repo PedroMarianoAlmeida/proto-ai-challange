@@ -31,7 +31,8 @@ export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
         <TextField
           className="h-auto w-full flex-none"
           label="Title"
-          helpText=""
+          helpText={errors.title && "Title is required"}
+          error={Boolean(errors.title)}
         >
           <TextField.Input
             placeholder="Enter task title"
@@ -41,7 +42,8 @@ export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
         <TextArea
           className="h-auto w-full flex-none"
           label="Description"
-          helpText=""
+          helpText={errors.description && "Description is required"}
+          error={Boolean(errors.description)}
         >
           <TextArea.Input
             placeholder="Enter task description"
