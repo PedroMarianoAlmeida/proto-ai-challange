@@ -1,47 +1,253 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React from "react";
+import { DefaultPageLayout } from "@/ui/layouts/DefaultPageLayout";
+import { Button } from "@/ui/components/Button";
+import { FeatherPlus } from "@subframe/core";
+import { TextField } from "@/ui/components/TextField";
+import { FeatherSearch } from "@subframe/core";
+import { FeatherChevronDown } from "@subframe/core";
+import { ToggleGroup } from "@/ui/components/ToggleGroup";
+import { FeatherLayoutList } from "@subframe/core";
+import { FeatherGrid } from "@subframe/core";
+import { Table } from "@/ui/components/Table";
+import { Badge } from "@/ui/components/Badge";
+import { DropdownMenu } from "@/ui/components/DropdownMenu";
+import { FeatherEye } from "@subframe/core";
+import { FeatherEdit2 } from "@subframe/core";
+import { FeatherTrash } from "@subframe/core";
+import * as SubframeCore from "@subframe/core";
+import { IconButton } from "@/ui/components/IconButton";
+import { FeatherMoreHorizontal } from "@subframe/core";
+
+function TaskManagementHub() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-8">
-      <Image
-        src="subframe-logo.svg"
-        width={112}
-        height={20}
-        alt="Subframe logo"
-      />
-
-      <div className="flex flex-col gap-1 mt-20">
-        <div className="relative mx-auto max-w-4xl gap-12 px-6 lg:px-8">
-          <h1 className="text-4xl text-center font-semibold tracking-tight sm:text-6xl sm:leading-[4.25rem]">
-            Welcome to your Subframe Next.js Starter Kit
-          </h1>
+    <DefaultPageLayout>
+      <div className="container max-w-none flex h-full w-full flex-col items-start gap-6 bg-default-background py-6">
+        <div className="flex w-full items-center justify-between">
+          <span className="text-heading-2 font-heading-2 text-default-font">
+            Tasks
+          </span>
+          <Button
+            icon={<FeatherPlus />}
+            onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+          >
+            New Task
+          </Button>
         </div>
-        <div className="relative mx-auto max-w-2xl gap-12 px-6 lg:px-8">
-          <div className="mt-6 text-lg text-base sm:text-lg text-center max-w-">
-            Use this project to kickstart Subframe. It includes configuration
-            files, dependencies you will need, and a clean slate for getting
-            started.
+        <div className="flex w-full flex-wrap items-center gap-4">
+          <div className="flex grow shrink-0 basis-0 items-center gap-2">
+            <TextField
+              variant="filled"
+              label=""
+              helpText=""
+              icon={<FeatherSearch />}
+            >
+              <TextField.Input
+                placeholder="Search tasks..."
+                value=""
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {}}
+              />
+            </TextField>
+            <Button
+              variant="neutral-tertiary"
+              iconRight={<FeatherChevronDown />}
+              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+            >
+              All Status
+            </Button>
           </div>
+          <ToggleGroup value="" onValueChange={(value: string) => {}}>
+            <ToggleGroup.Item icon={<FeatherLayoutList />} value="d69a3627">
+              List
+            </ToggleGroup.Item>
+            <ToggleGroup.Item icon={<FeatherGrid />} value="51ebc6f9">
+              Grid
+            </ToggleGroup.Item>
+          </ToggleGroup>
+        </div>
+        <div className="flex w-full flex-col items-start gap-2 rounded-md border border-solid border-neutral-border bg-default-background shadow-sm overflow-auto">
+          <Table
+            header={
+              <Table.HeaderRow>
+                <Table.HeaderCell>Title</Table.HeaderCell>
+                <Table.HeaderCell>Description</Table.HeaderCell>
+                <Table.HeaderCell>Status</Table.HeaderCell>
+                <Table.HeaderCell>Due Date</Table.HeaderCell>
+                <Table.HeaderCell />
+              </Table.HeaderRow>
+            }
+          >
+            <Table.Row>
+              <Table.Cell>
+                <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
+                  Website Redesign
+                </span>
+              </Table.Cell>
+              <Table.Cell>
+                <span className="whitespace-nowrap text-body font-body text-neutral-500">
+                  Update the company website with new branding
+                </span>
+              </Table.Cell>
+              <Table.Cell>
+                <Badge variant="warning">In Progress</Badge>
+              </Table.Cell>
+              <Table.Cell>
+                <span className="whitespace-nowrap text-body font-body text-neutral-500">
+                  Mar 15, 2024
+                </span>
+              </Table.Cell>
+              <Table.Cell>
+                <div className="flex grow shrink-0 basis-0 items-center justify-end">
+                  <SubframeCore.DropdownMenu.Root>
+                    <SubframeCore.DropdownMenu.Trigger asChild={true}>
+                      <IconButton
+                        icon={<FeatherMoreHorizontal />}
+                        onClick={(
+                          event: React.MouseEvent<HTMLButtonElement>
+                        ) => {}}
+                      />
+                    </SubframeCore.DropdownMenu.Trigger>
+                    <SubframeCore.DropdownMenu.Portal>
+                      <SubframeCore.DropdownMenu.Content
+                        side="bottom"
+                        align="end"
+                        sideOffset={8}
+                        asChild={true}
+                      >
+                        <DropdownMenu>
+                          <DropdownMenu.DropdownItem icon={<FeatherEye />}>
+                            View
+                          </DropdownMenu.DropdownItem>
+                          <DropdownMenu.DropdownItem icon={<FeatherEdit2 />}>
+                            Edit
+                          </DropdownMenu.DropdownItem>
+                          <DropdownMenu.DropdownDivider />
+                          <DropdownMenu.DropdownItem icon={<FeatherTrash />}>
+                            Delete
+                          </DropdownMenu.DropdownItem>
+                        </DropdownMenu>
+                      </SubframeCore.DropdownMenu.Content>
+                    </SubframeCore.DropdownMenu.Portal>
+                  </SubframeCore.DropdownMenu.Root>
+                </div>
+              </Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>
+                <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
+                  Product Launch
+                </span>
+              </Table.Cell>
+              <Table.Cell>
+                <span className="whitespace-nowrap text-body font-body text-neutral-500">
+                  Coordinate marketing campaign for new product
+                </span>
+              </Table.Cell>
+              <Table.Cell>
+                <Badge>Todo</Badge>
+              </Table.Cell>
+              <Table.Cell>
+                <span className="whitespace-nowrap text-body font-body text-neutral-500">
+                  Apr 1, 2024
+                </span>
+              </Table.Cell>
+              <Table.Cell>
+                <div className="flex grow shrink-0 basis-0 items-center justify-end">
+                  <SubframeCore.DropdownMenu.Root>
+                    <SubframeCore.DropdownMenu.Trigger asChild={true}>
+                      <IconButton
+                        icon={<FeatherMoreHorizontal />}
+                        onClick={(
+                          event: React.MouseEvent<HTMLButtonElement>
+                        ) => {}}
+                      />
+                    </SubframeCore.DropdownMenu.Trigger>
+                    <SubframeCore.DropdownMenu.Portal>
+                      <SubframeCore.DropdownMenu.Content
+                        side="bottom"
+                        align="end"
+                        sideOffset={8}
+                        asChild={true}
+                      >
+                        <DropdownMenu>
+                          <DropdownMenu.DropdownItem icon={<FeatherEye />}>
+                            View
+                          </DropdownMenu.DropdownItem>
+                          <DropdownMenu.DropdownItem icon={<FeatherEdit2 />}>
+                            Edit
+                          </DropdownMenu.DropdownItem>
+                          <DropdownMenu.DropdownDivider />
+                          <DropdownMenu.DropdownItem icon={<FeatherTrash />}>
+                            Delete
+                          </DropdownMenu.DropdownItem>
+                        </DropdownMenu>
+                      </SubframeCore.DropdownMenu.Content>
+                    </SubframeCore.DropdownMenu.Portal>
+                  </SubframeCore.DropdownMenu.Root>
+                </div>
+              </Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>
+                <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
+                  User Research
+                </span>
+              </Table.Cell>
+              <Table.Cell>
+                <span className="whitespace-nowrap text-body font-body text-neutral-500">
+                  Conduct user interviews and analyze feedback
+                </span>
+              </Table.Cell>
+              <Table.Cell>
+                <Badge variant="success">Completed</Badge>
+              </Table.Cell>
+              <Table.Cell>
+                <span className="whitespace-nowrap text-body font-body text-neutral-500">
+                  Mar 10, 2024
+                </span>
+              </Table.Cell>
+              <Table.Cell>
+                <div className="flex grow shrink-0 basis-0 items-center justify-end">
+                  <SubframeCore.DropdownMenu.Root>
+                    <SubframeCore.DropdownMenu.Trigger asChild={true}>
+                      <IconButton
+                        icon={<FeatherMoreHorizontal />}
+                        onClick={(
+                          event: React.MouseEvent<HTMLButtonElement>
+                        ) => {}}
+                      />
+                    </SubframeCore.DropdownMenu.Trigger>
+                    <SubframeCore.DropdownMenu.Portal>
+                      <SubframeCore.DropdownMenu.Content
+                        side="bottom"
+                        align="end"
+                        sideOffset={8}
+                        asChild={true}
+                      >
+                        <DropdownMenu>
+                          <DropdownMenu.DropdownItem icon={<FeatherEye />}>
+                            View
+                          </DropdownMenu.DropdownItem>
+                          <DropdownMenu.DropdownItem icon={<FeatherEdit2 />}>
+                            Edit
+                          </DropdownMenu.DropdownItem>
+                          <DropdownMenu.DropdownDivider />
+                          <DropdownMenu.DropdownItem icon={<FeatherTrash />}>
+                            Delete
+                          </DropdownMenu.DropdownItem>
+                        </DropdownMenu>
+                      </SubframeCore.DropdownMenu.Content>
+                    </SubframeCore.DropdownMenu.Portal>
+                  </SubframeCore.DropdownMenu.Root>
+                </div>
+              </Table.Cell>
+            </Table.Row>
+          </Table>
         </div>
       </div>
-
-      <div className="flex gap-2 max-w-md mt-12 gap-4">
-        <a
-          className="rounded-lg bg-slate-950 text-white px-4 py-2 text-center"
-          href="https://docs.subframe.com/installation"
-          target="_blank"
-        >
-          Install Subframe
-        </a>
-
-        <a
-          className="rounded-lg text-slate-950 px-4 py-2 text-center border border-slate-300"
-          href="https://www.loom.com/embed/6b6a31569e1540d7a69a18b8620bf51a"
-          target="_blank"
-        >
-          See how it works
-        </a>
-      </div>
-    </main>
+    </DefaultPageLayout>
   );
 }
+
+export default TaskManagementHub;
