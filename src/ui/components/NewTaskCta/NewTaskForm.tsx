@@ -13,7 +13,11 @@ type Inputs = {
   description: string;
 };
 
-export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
+interface NewTasksFormProps {
+  children: React.ReactNode;
+  onSuccess(): void;
+}
+export const NewTaskForm = ({ children, onSuccess }: NewTasksFormProps) => {
   const {
     register,
     handleSubmit,
@@ -26,6 +30,7 @@ export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     mutate(data, {
       onSuccess: () => {
+        onSuccess();
         reset();
       },
     });
