@@ -18,7 +18,7 @@ import { IconButton } from "@/ui/components/IconButton";
 import { FeatherMoreHorizontal } from "@subframe/core";
 
 import { NewTaskCta } from "@/ui/components/NewTaskCta";
-import { tempGetTasks } from "@/hooks/useMockTasks";
+import { useTasks } from "@/hooks/useMockTasks";
 
 const statusToVariant: Record<string, "neutral" | "warning" | "success"> = {
   Todo: "neutral",
@@ -27,7 +27,7 @@ const statusToVariant: Record<string, "neutral" | "warning" | "success"> = {
 };
 
 function TaskManagementHub() {
-  const tasks = tempGetTasks();
+  const { data } = useTasks();
   return (
     <>
       <DefaultPageLayout>
@@ -73,69 +73,70 @@ function TaskManagementHub() {
                 </Table.HeaderRow>
               }
             >
-              {tasks.map(({ description, dueDate, id, status, title }) => (
-                <Table.Row key={id}>
-                  <Table.Cell>
-                    <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
-                      {title}
-                    </span>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <span className="whitespace-nowrap text-body font-body text-neutral-500">
-                      {description}
-                    </span>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Badge variant={statusToVariant[status] || "neutral"}>
-                      {status}
-                    </Badge>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <span className="whitespace-nowrap text-body font-body text-neutral-500">
-                      {new Intl.DateTimeFormat("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      }).format(new Date(dueDate))}
-                    </span>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <div className="flex grow shrink-0 basis-0 items-center">
-                      <SubframeCore.DropdownMenu.Root>
-                        <SubframeCore.DropdownMenu.Trigger asChild={true}>
-                          <IconButton
-                            icon={<FeatherMoreHorizontal />}
-                            onClick={(
-                              event: React.MouseEvent<HTMLButtonElement>
-                            ) => {}}
-                          />
-                        </SubframeCore.DropdownMenu.Trigger>
-                        <SubframeCore.DropdownMenu.Portal>
-                          <SubframeCore.DropdownMenu.Content
-                            side="bottom"
-                            align="end"
-                            sideOffset={8}
-                            asChild={true}
-                          >
-                            <DropdownMenu>
-                              <DropdownMenu.DropdownItem
-                                icon={<FeatherEdit2 />}
-                              >
-                                Edit
-                              </DropdownMenu.DropdownItem>
-                              <DropdownMenu.DropdownItem
-                                icon={<FeatherTrash />}
-                              >
-                                Delete
-                              </DropdownMenu.DropdownItem>
-                            </DropdownMenu>
-                          </SubframeCore.DropdownMenu.Content>
-                        </SubframeCore.DropdownMenu.Portal>
-                      </SubframeCore.DropdownMenu.Root>
-                    </div>
-                  </Table.Cell>
-                </Table.Row>
-              ))}
+              {data &&
+                data.map(({ description, dueDate, id, status, title }) => (
+                  <Table.Row key={id}>
+                    <Table.Cell>
+                      <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
+                        {title}
+                      </span>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <span className="whitespace-nowrap text-body font-body text-neutral-500">
+                        {description}
+                      </span>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Badge variant={statusToVariant[status] || "neutral"}>
+                        {status}
+                      </Badge>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <span className="whitespace-nowrap text-body font-body text-neutral-500">
+                        {new Intl.DateTimeFormat("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        }).format(new Date(dueDate))}
+                      </span>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <div className="flex grow shrink-0 basis-0 items-center">
+                        <SubframeCore.DropdownMenu.Root>
+                          <SubframeCore.DropdownMenu.Trigger asChild={true}>
+                            <IconButton
+                              icon={<FeatherMoreHorizontal />}
+                              onClick={(
+                                event: React.MouseEvent<HTMLButtonElement>
+                              ) => {}}
+                            />
+                          </SubframeCore.DropdownMenu.Trigger>
+                          <SubframeCore.DropdownMenu.Portal>
+                            <SubframeCore.DropdownMenu.Content
+                              side="bottom"
+                              align="end"
+                              sideOffset={8}
+                              asChild={true}
+                            >
+                              <DropdownMenu>
+                                <DropdownMenu.DropdownItem
+                                  icon={<FeatherEdit2 />}
+                                >
+                                  Edit
+                                </DropdownMenu.DropdownItem>
+                                <DropdownMenu.DropdownItem
+                                  icon={<FeatherTrash />}
+                                >
+                                  Delete
+                                </DropdownMenu.DropdownItem>
+                              </DropdownMenu>
+                            </SubframeCore.DropdownMenu.Content>
+                          </SubframeCore.DropdownMenu.Portal>
+                        </SubframeCore.DropdownMenu.Root>
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
             </Table>
           </div>
         </div>

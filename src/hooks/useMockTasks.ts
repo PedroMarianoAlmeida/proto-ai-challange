@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+
 export type Task = {
   id: string;
   title: string;
@@ -30,6 +32,14 @@ export const mockTasks: Task[] = [
   },
 ];
 
-export const tempGetTasks = () => {
-  return mockTasks;
+const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+export const useTasks = () => {
+  return useQuery<Task[]>({
+    queryKey: ["tasks"],
+    queryFn: async () => {
+      await wait(300);
+      return mockTasks;
+    },
+  });
 };
