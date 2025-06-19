@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { DefaultPageLayout } from "@/ui/layouts/DefaultPageLayout";
 import { Button } from "@/ui/components/Button";
-import { FeatherPlus } from "@subframe/core";
+
 import { TextField } from "@/ui/components/TextField";
 import { FeatherSearch } from "@subframe/core";
 import { FeatherChevronDown } from "@subframe/core";
@@ -19,11 +19,10 @@ import { FeatherTrash } from "@subframe/core";
 import * as SubframeCore from "@subframe/core";
 import { IconButton } from "@/ui/components/IconButton";
 import { FeatherMoreHorizontal } from "@subframe/core";
-import { NewTaskModal } from "@/ui/components/NewTaskModal";
+
+import { NewTaskCta } from "@/ui/components/NewTaskCta";
 
 function TaskManagementHub() {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
   return (
     <>
       <DefaultPageLayout>
@@ -32,9 +31,7 @@ function TaskManagementHub() {
             <span className="text-heading-2 font-heading-2 text-default-font">
               Tasks
             </span>
-            <Button icon={<FeatherPlus />} onClick={() => setIsModalOpen(true)}>
-              New Task
-            </Button>
+            <NewTaskCta />
           </div>
           <div className="flex w-full flex-wrap items-center gap-4">
             <div className="flex grow shrink-0 basis-0 items-center gap-2">
@@ -247,13 +244,6 @@ function TaskManagementHub() {
             </Table>
           </div>
         </div>
-
-        {isModalOpen && (
-          <NewTaskModal
-            isOpen={isModalOpen}
-            //onOpenChange={(value) => setIsModalOpen(value)}
-          />
-        )}
       </DefaultPageLayout>
     </>
   );
