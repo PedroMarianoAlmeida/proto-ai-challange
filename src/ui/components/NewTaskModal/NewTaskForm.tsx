@@ -1,14 +1,31 @@
 "use client";
 
 import React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Button } from "@/ui/components/Button";
 import { TextField } from "@/ui/components/TextField";
 import { TextArea } from "@/ui/components/TextArea";
 
+type Inputs = {
+  example: string;
+  exampleRequired: string;
+};
+
 export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+
+  console.log(watch("example")); // watch input value by passing the name of it
+
   return (
-    <>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex w-full flex-col items-start gap-6">
         <TextField
           className="h-auto w-full flex-none"
@@ -17,8 +34,7 @@ export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
         >
           <TextField.Input
             placeholder="Enter task title"
-            value=""
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {}}
+            {...register("example")}
           />
         </TextField>
         <TextArea
@@ -28,17 +44,14 @@ export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
         >
           <TextArea.Input
             placeholder="Enter task description"
-            value=""
-            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {}}
+            {...register("exampleRequired", { required: true })}
           />
         </TextArea>
       </div>
       <div className="flex w-full items-center justify-end gap-2">
         {children}
-        <Button onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}>
-          Create Task
-        </Button>
+        <Button type="submit">Create Task</Button>
       </div>
-    </>
+    </form>
   );
 };
