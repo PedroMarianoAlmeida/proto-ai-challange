@@ -35,6 +35,7 @@ export const EditTaskForm = ({
     handleSubmit,
     reset,
     control,
+    watch,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
@@ -53,6 +54,14 @@ export const EditTaskForm = ({
       dueDate: new Date(task.dueDate),
     });
   }, [task, reset]);
+
+  const watchedValues = watch();
+
+  const isChanged =
+    watchedValues.title !== title ||
+    watchedValues.description !== description ||
+    watchedValues.status !== status ||
+    watchedValues.dueDate?.toDateString() !== new Date(dueDate).toDateString();
 
   // const { mutate, isPending } = useCreateTask();
 
@@ -134,7 +143,10 @@ export const EditTaskForm = ({
       </div>
       <div className="flex w-full items-center justify-end gap-2">
         {children}
-        <Button type="submit" /*loading={isPending} disabled={isPending}*/>
+        <Button
+          type="submit"
+          /*loading={isPending} disabled={isPending}*/ disabled={!isChanged}
+        >
           Edit Task
         </Button>
       </div>
