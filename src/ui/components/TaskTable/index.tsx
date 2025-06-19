@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { TextField } from "@/ui/components/TextField";
 import { FeatherSearch } from "@subframe/core";
@@ -9,22 +9,20 @@ import { TaskRow } from "@/src/ui/components/TaskTable/TaskRow";
 import { useTasks } from "@/hooks/useMockTasks";
 
 export const TaskTable = () => {
-  const { data } = useTasks();
+  const [filter, setFilter] = useState("");
+  const { data } = useTasks(filter);
 
   return (
     <>
       <div className="flex w-full flex-wrap items-center gap-4">
         <div className="flex grow shrink-0 basis-0 items-center gap-2">
-          <TextField
-            variant="filled"
-            label=""
-            helpText=""
-            icon={<FeatherSearch />}
-          >
+          <TextField variant="filled" icon={<FeatherSearch />}>
             <TextField.Input
               placeholder="Search tasks..."
-              value=""
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {}}
+              value={filter}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                setFilter(event.target.value)
+              }
             />
           </TextField>
         </div>
