@@ -53,16 +53,19 @@ export const useCreateTask = () => {
 
   return useMutation({
     mutationFn: async ({ title, description }: CreateTaskParams) => {
-      await wait(300);
-      console.log("before push");
-      const newTask: Task = {
-        id: `${Date.now()}`,
-        title,
-        description,
-        dueDate: new Date().toISOString().split("T")[0],
-        status: "Todo",
-      };
-      mockTasks.push(newTask);
+      const res = await fetch("/api/task/new", {
+        method: "POST",
+        body: JSON.stringify({ title, description }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to create task");
+      }
+
+      return res.json() as Promise<Task>;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
