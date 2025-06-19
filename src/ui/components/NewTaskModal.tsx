@@ -7,9 +7,12 @@ import { FeatherX } from "@subframe/core";
 import { TextField } from "@/ui/components/TextField";
 import { TextArea } from "@/ui/components/TextArea";
 
-function NewTaskModal() {
+interface NewTaskModalProps {
+  isOpen: boolean;
+}
+export function NewTaskModal({ isOpen }: NewTaskModalProps) {
   return (
-    <DialogLayout open={true} onOpenChange={() => {}}>
+    <DialogLayout open={isOpen} onOpenChange={() => {}}>
       <div className="flex h-full w-full min-w-[448px] flex-col items-start gap-6 bg-default-background px-6 py-6">
         <div className="flex w-full items-center justify-between">
           <span className="text-heading-2 font-heading-2 text-default-font">
@@ -60,5 +63,3 @@ function NewTaskModal() {
     </DialogLayout>
   );
 }
-
-export default NewTaskModal;
