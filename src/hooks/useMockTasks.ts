@@ -34,12 +34,20 @@ let mockTasks: Task[] = [
 
 const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-export const useTasks = () => {
+export const useTasks = (search?: string) => {
   return useQuery<Task[]>({
-    queryKey: ["tasks"],
+    queryKey: ["tasks", search],
     queryFn: async () => {
       await wait(300);
-      return mockTasks;
+      if (!search) return mockTasks;
+
+      const lowerSearch = search.toLowerCase();
+
+      return mockTasks.filter(
+        (task) =>
+          task.title.toLowerCase().includes(lowerSearch) ||
+          task.description.toLowerCase().includes(lowerSearch)
+      );
     },
   });
 };
@@ -86,18 +94,18 @@ export const useDeleteTask = (taskId: string) => {
 };
 
 export const useUpdateTask = () => {
-    const queryClient = useQueryClient();
-  
-    return useMutation({
-      mutationFn: async (updatedTask: Task) => {
-        await wait(300);
-        mockTasks = mockTasks.map((task) =>
-          task.id === updatedTask.id ? updatedTask : task
-        );
-        return updatedTask;
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      },
-    });
-  };
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (updatedTask: Task) => {
+      await wait(300);
+      mockTasks = mockTasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
+      );
+      return updatedTask;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+};
