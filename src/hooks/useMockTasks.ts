@@ -44,18 +44,18 @@ export const useTasks = (search?: string) => {
   });
 };
 
-interface CreateTaskParams {
-  title: string;
-  description: string;
-}
 export const useCreateTask = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ title, description }: CreateTaskParams) => {
+    mutationFn: async ({
+      title,
+      description,
+      dueDate,
+    }: Pick<Task, "description" | "title" | "dueDate">) => {
       const res = await fetch("/api/task/new", {
         method: "POST",
-        body: JSON.stringify({ title, description }),
+        body: JSON.stringify({ title, description, dueDate }),
         headers: {
           "Content-Type": "application/json",
         },
