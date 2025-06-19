@@ -8,11 +8,12 @@ import { FeatherSearch } from "@subframe/core";
 import { Table } from "@/ui/components/Table";
 import { TaskRow } from "@/src/ui/components/TaskTable/TaskRow";
 import { useTasks } from "@/hooks/useMockTasks";
+import { LoadingTable } from "./LoadingTable";
 
 export const TaskTable = () => {
   const [searchInput, setSearchInput] = React.useState("");
   const [debouncedSearch] = useDebounce(searchInput, 500);
-  const { data } = useTasks(debouncedSearch);
+  const { data, isLoading } = useTasks(debouncedSearch);
 
   return (
     <>
@@ -41,7 +42,20 @@ export const TaskTable = () => {
             </Table.HeaderRow>
           }
         >
-          {data && data.map((item) => <TaskRow item={item} />)}
+          {isLoading && <LoadingTable />}
+          {data && data.length > 0
+            ? data.map((item) => <TaskRow item={item} key={item.id} />)
+            : !isLoading && (
+                <Table.Row>
+                  <Table.Cell colSpan={5}>
+                    <div className="flex h-24 w-full items-center justify-center">
+                      <span className="text-body-bold text-neutral-500">
+                        No tasks found
+                      </span>
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              )}
         </Table>
       </div>
     </>
