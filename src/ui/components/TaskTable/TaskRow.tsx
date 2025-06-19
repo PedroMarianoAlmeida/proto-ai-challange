@@ -16,7 +16,7 @@ export const TaskRow = ({ item }: { item: Task }) => {
   return (
     <Table.Row
       key={id}
-      className="grid w-full grid-cols-[minmax(0,15%),minmax(0,35%),minmax(0,10%),minmax(0,10%),minmax(0,20%)]"
+      className="grid w-full grid-cols-[minmax(0,15%),minmax(0,45%),minmax(0,10%),minmax(0,10%),minmax(0,10%)]"
     >
       <Table.Cell className="min-w-0">
         <span className="block truncate text-body-bold font-body-bold text-neutral-500">
