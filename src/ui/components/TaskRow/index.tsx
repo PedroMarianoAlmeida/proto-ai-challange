@@ -1,8 +1,6 @@
 import { Task } from "@/hooks/useMockTasks";
 import { Table } from "@/ui/components/Table";
 import { Badge } from "@/ui/components/Badge";
-import { FeatherEdit2 } from "@subframe/core";
-import { Button } from "@/ui/components/Button";
 
 import { DeleteTask } from "./DeleteTask";
 import { EditTask } from "./EditTask";

@@ -1,17 +1,19 @@
 "use client";
 
-import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import React, { useEffect } from "react";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 import { Button } from "@/ui/components/Button";
 import { TextField } from "@/ui/components/TextField";
 import { TextArea } from "@/ui/components/TextArea";
 //import { useCreateTask } from "@/hooks/useMockTasks";
 import { Task } from "@/hooks/useMockTasks";
+import { Select } from "@/ui/components/Select";
 
 type Inputs = {
   title: string;
   description: string;
+  status: Task["status"];
 };
 
 interface EditTaskFormProps {
@@ -25,32 +27,44 @@ export const EditTaskForm = ({
   task,
 }: EditTaskFormProps) => {
   const { description, dueDate, id, status, title } = task;
+
   const {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
       title,
       description,
+      status,
     },
   });
 
+  useEffect(() => {
+    reset({
+      title,
+      description,
+      status,
+    });
+  }, [task, reset]);
+
   // const { mutate, isPending } = useCreateTask();
 
-  // const onSubmit: SubmitHandler<Inputs> = (data) => {
-  //   mutate(data, {
-  //     onSuccess: () => {
-  //       onSuccess();
-  //       reset();
-  //     },
-  //   });
-  // };
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log({ data });
+    // mutate(data, {
+    //   onSuccess: () => {
+    //     onSuccess();
+    //     reset();
+    //   },
+    // });
+  };
 
   return (
     <form
-      // onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit)}
       className="w-full flex flex-col gap-2"
     >
       <div className="flex w-full flex-col items-start gap-6">
@@ -76,12 +90,32 @@ export const EditTaskForm = ({
             {...register("description", { required: true })}
           />
         </TextArea>
+        <Controller
+          name="status"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <Select
+              className="h-auto w-full flex-none"
+              label="Status"
+              placeholder="Select status"
+              helpText={errors.status && "Status is required"}
+              error={Boolean(errors.status)}
+              value={field.value}
+              onValueChange={field.onChange}
+            >
+              <Select.Item value="Todo">Todo</Select.Item>
+              <Select.Item value="In Progress">In Progress</Select.Item>
+              <Select.Item value="Completed">Completed</Select.Item>
+            </Select>
+          )}
+        />
       </div>
       <div className="flex w-full items-center justify-end gap-2">
         {children}
-        {/* <Button type="submit" loading={isPending} disabled={isPending}>
-          Create Task
-        </Button> */}
+        <Button type="submit" /*loading={isPending} disabled={isPending}*/>
+          Edit Task
+        </Button>
       </div>
     </form>
   );
