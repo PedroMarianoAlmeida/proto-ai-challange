@@ -23,10 +23,10 @@ export function NewTaskCta() {
             <Button
               variant="neutral-tertiary"
               icon={<FeatherX />}
-              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+              onClick={() => setIsModalOpen(false)}
             />
           </div>
-          <NewTaskForm>
+          <NewTaskForm onSuccess={() => setIsModalOpen(false)}>
             <Button
               variant="neutral-tertiary"
               onClick={() => setIsModalOpen(false)}

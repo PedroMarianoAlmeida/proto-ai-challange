@@ -1,0 +1,57 @@
+import { Task } from "@/hooks/useMockTasks";
+import { Table } from "@/ui/components/Table";
+import { Badge } from "@/ui/components/Badge";
+import { DropdownMenu } from "@/ui/components/DropdownMenu";
+import { FeatherEdit2 } from "@subframe/core";
+import { Button } from "@/ui/components/Button";
+import * as SubframeCore from "@subframe/core";
+import { IconButton } from "@/ui/components/IconButton";
+import { FeatherMoreHorizontal } from "@subframe/core";
+
+import { DeleteTask } from "./DeleteTask";
+
+const statusToVariant: Record<string, "neutral" | "warning" | "success"> = {
+  Todo: "neutral",
+  "In Progress": "warning",
+  Completed: "success",
+};
+export const TaskRow = ({
+  item: { id, title, description, status, dueDate },
+}: {
+  item: Task;
+}) => {
+  return (
+    <Table.Row key={id}>
+      <Table.Cell>
+        <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
+          {title}
+        </span>
+      </Table.Cell>
+      <Table.Cell>
+        <span className="whitespace-nowrap text-body font-body text-neutral-500">
+          {description}
+        </span>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant={statusToVariant[status] || "neutral"}>{status}</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <span className="whitespace-nowrap text-body font-body text-neutral-500">
+          {new Intl.DateTimeFormat("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          }).format(new Date(dueDate))}
+        </span>
+      </Table.Cell>
+      <Table.Cell>
+        <div className="flex grow shrink-0 basis-0 items-center gap-2">
+          <Button variant="neutral-primary" icon={<FeatherEdit2 />}>
+            Edit
+          </Button>
+          <DeleteTask taskId={id} />
+        </div>
+      </Table.Cell>
+    </Table.Row>
+  );
+};

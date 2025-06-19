@@ -6,20 +6,35 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "@/ui/components/Button";
 import { TextField } from "@/ui/components/TextField";
 import { TextArea } from "@/ui/components/TextArea";
+import { useCreateTask } from "@/hooks/useMockTasks";
 
 type Inputs = {
   title: string;
   description: string;
 };
 
-export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
+interface NewTasksFormProps {
+  children: React.ReactNode;
+  onSuccess(): void;
+}
+export const NewTaskForm = ({ children, onSuccess }: NewTasksFormProps) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const { mutate, isPending } = useCreateTask();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    mutate(data, {
+      onSuccess: () => {
+        onSuccess();
+        reset();
+      },
+    });
+  };
 
   return (
     <form
@@ -52,7 +67,9 @@ export const NewTaskForm = ({ children }: { children: React.ReactNode }) => {
       </div>
       <div className="flex w-full items-center justify-end gap-2">
         {children}
-        <Button type="submit">Create Task</Button>
+        <Button type="submit" loading={isPending} disabled={isPending}>
+          Create Task
+        </Button>
       </div>
     </form>
   );
