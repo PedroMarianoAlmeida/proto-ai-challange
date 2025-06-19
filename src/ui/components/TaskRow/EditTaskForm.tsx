@@ -6,7 +6,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Button } from "@/ui/components/Button";
 import { TextField } from "@/ui/components/TextField";
 import { TextArea } from "@/ui/components/TextArea";
-//import { useCreateTask } from "@/hooks/useMockTasks";
+import { useUpdateTask } from "@/hooks/useMockTasks";
 import { Task } from "@/hooks/useMockTasks";
 import { Select } from "@/ui/components/Select";
 import { Calendar } from "@/ui/components/Calendar";
@@ -63,16 +63,24 @@ export const EditTaskForm = ({
     watchedValues.status !== status ||
     watchedValues.dueDate?.toDateString() !== new Date(dueDate).toDateString();
 
-  // const { mutate, isPending } = useCreateTask();
+  const { mutate, isPending } = useUpdateTask();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log({ data });
-    // mutate(data, {
-    //   onSuccess: () => {
-    //     onSuccess();
-    //     reset();
-    //   },
-    // });
+    mutate(
+      {
+        id,
+        title: data.title,
+        description: data.description,
+        status: data.status,
+        dueDate: data.dueDate.toISOString().split("T")[0],
+      },
+      {
+        onSuccess: () => {
+          onSuccess();
+          reset();
+        },
+      }
+    );
   };
 
   return (
@@ -145,7 +153,8 @@ export const EditTaskForm = ({
         {children}
         <Button
           type="submit"
-          /*loading={isPending} disabled={isPending}*/ disabled={!isChanged}
+          loading={isPending}
+          disabled={isPending || !isChanged}
         >
           Edit Task
         </Button>
