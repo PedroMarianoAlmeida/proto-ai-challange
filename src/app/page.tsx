@@ -8,7 +8,7 @@ import { TextField } from "@/ui/components/TextField";
 import { FeatherSearch } from "@subframe/core";
 import { FeatherChevronDown } from "@subframe/core";
 import { Table } from "@/ui/components/Table";
-import { NewTaskCta } from "@/ui/components/NewTaskCta";
+import { CreateTask } from "@/src/ui/components/CreateTask";
 import { useTasks } from "@/hooks/useMockTasks";
 import { TaskRow } from "@/ui/components/TaskRow";
 
@@ -22,7 +22,7 @@ function TaskManagementHub() {
             <span className="text-heading-2 font-heading-2 text-default-font">
               Tasks
             </span>
-            <NewTaskCta />
+            <CreateTask />
           </div>
           <div className="flex w-full flex-wrap items-center gap-4">
             <div className="flex grow shrink-0 basis-0 items-center gap-2">
